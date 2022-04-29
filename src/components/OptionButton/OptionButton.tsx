@@ -1,7 +1,7 @@
 import { Image } from "native-base";
 import React from "react";
-import { Text, TouchableOpacity, useWindowDimensions } from "react-native";
-import { styles } from "../App.styles";
+import { Text, TouchableOpacity } from "react-native";
+import { styles } from "../../../App.styles";
 
 interface OptionButtonProps {
   imgUrl: string;
