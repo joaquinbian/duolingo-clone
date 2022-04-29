@@ -1,23 +1,45 @@
+import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { styles } from "./App.styles";
+import OptionButton from "./components/OptionButton";
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <View style={styles.container}>
-        <Text>Wich of this is Glass?</Text>
-        <StatusBar style="auto" />
-      </View>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Wich of this is Glass?</Text>
+        <View
+          style={styles.optionsContainer}
+          //
+          //
+          //
+          //
+        >
+          <OptionButton
+            title="copa"
+            imgUrl="https://fsmd-assets.s3.eu-west-1.amazonaws.com/duolingo/images/cup.png"
+            onPress={() => console.log("copa")}
+          />
+          <OptionButton
+            title="copa"
+            imgUrl="https://fsmd-assets.s3.eu-west-1.amazonaws.com/duolingo/images/cup.png"
+            onPress={() => console.log("copa")}
+          />
+          <OptionButton
+            title="copa"
+            imgUrl="https://fsmd-assets.s3.eu-west-1.amazonaws.com/duolingo/images/cup.png"
+            onPress={() => console.log("copa")}
+          />
+          <OptionButton
+            title="copa"
+            imgUrl="https://fsmd-assets.s3.eu-west-1.amazonaws.com/duolingo/images/cup.png"
+            onPress={() => console.log("copa")}
+          />
+          <StatusBar style="auto" />
+        </View>
+      </SafeAreaView>
     </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
