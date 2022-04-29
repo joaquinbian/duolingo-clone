@@ -16,7 +16,12 @@ const OptionButton = ({ imgUrl, title, onPress }: OptionButtonProps) => {
       onPress={onPress}
       style={[styles.optionContainer, styles.boxShadow]}
     >
-      <Image source={{ uri: imgUrl }} size="xl" alt={`${title} image`} />
+      <Image
+        source={{ uri: imgUrl }}
+        size="2xl"
+        alt={`${title} image`}
+        resizeMode="contain" //para que el contenido de la imagen se muestre completo
+      />
       <Text>{title}</Text>
     </TouchableOpacity>
   );

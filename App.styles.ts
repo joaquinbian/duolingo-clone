@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    alignContent: "space-around", //cuando tenemos flexWrap funciona como justyfyContent para
+    //las columns o rows dependiendo del valor de flexDirection
   },
   optionContainer: {
     height: "48%",
@@ -25,7 +27,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     overflow: "hidden",
-    marginVertical: 5,
   },
   boxShadow: {
     shadowColor: "#000",
