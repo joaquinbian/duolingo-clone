@@ -9,8 +9,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "#D5D5D5",
   },
   selectedOption: {
     backgroundColor: "rgb(153, 235, 242)",
+    borderColor: "#0D98C9",
   },
 });

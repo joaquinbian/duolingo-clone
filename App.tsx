@@ -11,6 +11,7 @@ export default function App() {
   const [selected, setSelected] = useState<string | null>(null);
 
   const selectOption = (id: string): void => setSelected(id);
+
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
