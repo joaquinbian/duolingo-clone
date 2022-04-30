@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
 import { Text, View } from "react-native";
 import { styles } from "./App.styles";
-import OptionButton from "./src/components/OptionButton/OptionButton";
+import OptionButton from "./src/components/OptionButton";
 
 export default function App() {
   return (

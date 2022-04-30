@@ -1,7 +1,8 @@
 import { Image } from "native-base";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
-import { styles } from "../../../App.styles";
+import { styles } from "./styles";
+import { styles as globalStyles } from "../../../App.styles";
 
 interface OptionButtonProps {
   imgUrl: string;
@@ -9,15 +10,15 @@ interface OptionButtonProps {
   onPress: () => void;
 }
 
-const OptionButton = ({ imgUrl, title, onPress }: OptionButtonProps) => {
+const OptionButton = ({ imgUrl: uri, title, onPress }: OptionButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
-      style={[styles.optionContainer, styles.boxShadow]}
+      style={[styles.optionContainer, globalStyles.boxShadow]}
     >
       <Image
-        source={{ uri: imgUrl }}
+        source={{ uri }}
         size="2xl"
         alt={`${title} image`}
         resizeMode="contain" //para que el contenido de la imagen se muestre completo

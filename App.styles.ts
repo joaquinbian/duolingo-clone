@@ -19,15 +19,15 @@ export const styles = StyleSheet.create({
     alignContent: "space-around", //cuando tenemos flexWrap funciona como justyfyContent para
     //las columns o rows dependiendo del valor de flexDirection
   },
-  optionContainer: {
-    height: "48%",
-    width: "48%",
-    backgroundColor: "rgb(153, 235, 242)",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 4,
-    overflow: "hidden",
-  },
+  // optionContainer: {
+  //   height: "48%",
+  //   width: "48%",
+  //   backgroundColor: "rgb(153, 235, 242)",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   borderRadius: 4,
+  //   overflow: "hidden",
+  // },
   boxShadow: {
     shadowColor: "#000",
     shadowOffset: {
