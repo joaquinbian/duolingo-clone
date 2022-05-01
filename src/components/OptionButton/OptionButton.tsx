@@ -17,8 +17,6 @@ const OptionButton = ({
   isSelected,
   onPress,
 }: OptionButtonProps) => {
-  console.log({ title, isSelected });
-
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -35,7 +33,7 @@ const OptionButton = ({
         alt={`${title} image`}
         resizeMode="contain" //para que el contenido de la imagen se muestre completo
       />
-      <Text>{title}</Text>
+      <Text style={isSelected ? { fontWeight: "bold" } : {}}>{title}</Text>
     </TouchableOpacity>
   );
 };
