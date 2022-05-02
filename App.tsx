@@ -8,6 +8,7 @@ import questions from "./assets/data/imageMulatipleChoiceQuestions";
 import { useEffect, useRef, useState } from "react";
 import CustomButton from "./src/components/Button";
 import Question from "./src/components/Question";
+import OpenEndedQuestions from "./src/components/OpenEndedQuestions";
 
 export default function App() {
   // const [isChecking, setIsChecking] = useState<boolean | undefined>(undefined);
@@ -24,8 +25,8 @@ export default function App() {
       Alert.alert("congratulations", "you won");
     } else {
       setCurrentQuestion(questions[currentIndex]);
-      setSelected(null);
     }
+    setSelected(null);
   }, [currentIndex]);
 
   const checkAnswer = () => {
@@ -52,15 +53,17 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
-        <Question
+        {/* <Question
           question={currentQuestion}
           selected={selected}
           selectOption={selectOption}
-        />
+        /> */}
 
-        <CustomButton onPress={checkAnswer} isDisabled={!selected}>
+        {/* <CustomButton onPress={checkAnswer} isDisabled={!selected}>
           check 2
-        </CustomButton>
+        </CustomButton> */}
+
+        <OpenEndedQuestions />
         <StatusBar style="auto" />
       </SafeAreaView>
     </NativeBaseProvider>
