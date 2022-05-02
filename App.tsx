@@ -7,9 +7,10 @@ import OptionButton from "./src/components/OptionButton";
 import questions from "./assets/data/imageMulatipleChoiceQuestions";
 import { useEffect, useRef, useState } from "react";
 import CustomButton from "./src/components/Button";
+import Question from "./src/components/Question";
 
 export default function App() {
-  const [isChecking, setIsChecking] = useState<boolean | undefined>(undefined);
+  // const [isChecking, setIsChecking] = useState<boolean | undefined>(undefined);
   const [selected, setSelected] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState(
@@ -51,24 +52,13 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>{currentQuestion.question}</Text>
-        <View style={styles.optionsContainer}>
-          {currentQuestion.options?.map((option) => (
-            <OptionButton
-              key={option.id}
-              title={option.text}
-              imgUrl={option.image}
-              onPress={() => selectOption(option.id)}
-              isSelected={selected === option.id}
-            />
-          ))}
-        </View>
+        <Question
+          question={currentQuestion}
+          selected={selected}
+          selectOption={selectOption}
+        />
 
-        <CustomButton
-          onPress={checkAnswer}
-          isLoading={isChecking}
-          isDisabled={!selected}
-        >
+        <CustomButton onPress={checkAnswer} isDisabled={!selected}>
           check 2
         </CustomButton>
         <StatusBar style="auto" />
