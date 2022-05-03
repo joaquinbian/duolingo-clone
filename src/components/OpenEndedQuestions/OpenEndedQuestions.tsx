@@ -8,14 +8,24 @@ import Button from "../Button";
 
 interface Props {
   question: OpenEndedQuestion;
+  onCorrectAnswer: () => void;
+  onIncorrectAnswer: () => void;
 }
-const OpenEndedQuestions = ({ question }: Props) => {
+const OpenEndedQuestions = ({
+  question,
+  onCorrectAnswer,
+  onIncorrectAnswer,
+}: Props) => {
   const [input, setInput] = useState("");
 
   const compareSentences = (input: string) => {
-    const sentenceA = input.replaceAll(" ", "").toLowerCase();
-    const sentenceB = question.answer.replaceAll(" ", "").toLowerCase();
-    return sentenceA === sentenceB;
+    const sentenceA = input.split(" ").join("").toLowerCase();
+    const sentenceB = question.answer.split(" ").join("").toLowerCase();
+    if (sentenceA === sentenceB) {
+      onCorrectAnswer();
+    } else {
+      onIncorrectAnswer();
+    }
   };
   return (
     <>
@@ -33,11 +43,7 @@ const OpenEndedQuestions = ({ question }: Props) => {
         onChangeText={setInput}
         value={input}
       />
-      <Button
-        onPress={() => compareSentences({ a: input, b: question.answer })}
-      >
-        submit
-      </Button>
+      <Button onPress={() => compareSentences(input)}>submit</Button>
     </>
   );
 };

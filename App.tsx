@@ -16,39 +16,48 @@ export default function App() {
   const [selected, setSelected] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState(
-    questions[currentIndex]
+    openEndedQuestions[currentIndex]
   );
 
   const selectOption = (id: string): void => setSelected(id);
 
   useEffect(() => {
-    if (currentIndex === questions.length) {
+    if (currentIndex === openEndedQuestions.length) {
       Alert.alert("congratulations", "you won");
     } else {
-      setCurrentQuestion(questions[currentIndex]);
+      setCurrentQuestion(openEndedQuestions[currentIndex]);
     }
     setSelected(null);
   }, [currentIndex]);
 
-  const checkAnswer = () => {
-    const isAnswerCorrect = currentQuestion.options?.find(
-      (option) => option.id === selected
-    )?.correct;
+  // const isAnswerCorrect = currentQuestion.options?.find(
+  //   (option) => option.id === selected
+  // )?.correct;
+  // const checkAnswer = () => {
 
-    if (isAnswerCorrect && currentIndex === questions.length) {
-      return Alert.alert("congratulations!", "you won the game!");
-    } else {
-      if (isAnswerCorrect) {
-        Alert.alert("correct", "", [
-          {
-            text: "next",
-            onPress: () => setCurrentIndex((index) => index + 1),
-          },
-        ]);
-      } else {
-        Alert.alert("incorrect");
-      }
-    }
+  //     if (isAnswerCorrect) {
+  //       Alert.alert("correct", "", [
+  //         {
+  //           text: "next",
+  //           onPress: () => setCurrentIndex((index) => index + 1),
+  //         },
+  //       ]);
+  //     } else {
+  //       Alert.alert("incorrect");
+  //   }
+  // };
+
+  const OnCorrectAnswer = () => {
+    Alert.alert("correct", "", [
+      {
+        text: "next",
+        onPress: () => setCurrentIndex((index) => index + 1),
+      },
+    ]);
+  };
+
+  const onIncorrectAnswer = () => {
+    Alert.alert("incorrect");
   };
 
   return (
@@ -60,10 +69,12 @@ export default function App() {
           selectOption={selectOption}
         /> */}
 
-        <OpenEndedQuestions question={openEndedQuestions[0]} />
-        {/* <CustomButton onPress={checkAnswer} isDisabled={!selected}>
-          check 2
-        </CustomButton> */}
+        <OpenEndedQuestions
+          onCorrectAnswer={OnCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+          question={currentQuestion}
+        />
+        {/* <CustomButton onPress={checkAnswer}>check 2</CustomButton> */}
         <StatusBar style="auto" />
       </SafeAreaView>
     </NativeBaseProvider>
