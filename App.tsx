@@ -5,6 +5,7 @@ import { Alert, Text, View } from "react-native";
 import { styles } from "./App.styles";
 import OptionButton from "./src/components/OptionButton";
 import questions from "./assets/data/imageMulatipleChoiceQuestions";
+import openEndedQuestions from "./assets/data/openEndedQuestions";
 import { useEffect, useRef, useState } from "react";
 import CustomButton from "./src/components/Button";
 import Question from "./src/components/Question";
@@ -59,11 +60,10 @@ export default function App() {
           selectOption={selectOption}
         /> */}
 
+        <OpenEndedQuestions question={openEndedQuestions[0]} />
         {/* <CustomButton onPress={checkAnswer} isDisabled={!selected}>
           check 2
         </CustomButton> */}
-
-        <OpenEndedQuestions />
         <StatusBar style="auto" />
       </SafeAreaView>
     </NativeBaseProvider>

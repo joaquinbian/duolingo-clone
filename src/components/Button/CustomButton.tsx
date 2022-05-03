@@ -1,4 +1,4 @@
-import { Button } from "native-base";
+import { Button as NativeButton } from "native-base";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { InterfaceButtonProps } from "native-base/lib/typescript/components/primitives/Button/types";
@@ -9,10 +9,10 @@ interface CustomButtonProps extends InterfaceButtonProps {
   children?: Children;
 }
 
-const CustomButton = ({ children, ...rest }: CustomButtonProps) => {
-  return <Button {...rest}>{children}</Button>;
+const Button = ({ children, ...rest }: CustomButtonProps) => {
+  return <NativeButton {...rest}>{children}</NativeButton>;
 };
 
-export default CustomButton;
+export default Button;
 
 const styles = StyleSheet.create({});
