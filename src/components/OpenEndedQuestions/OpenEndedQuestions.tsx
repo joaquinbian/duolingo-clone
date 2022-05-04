@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { Image, Text, TextInput, View } from "react-native";
 import mascot from "../../../assets/images/mascot.png";
 import { styles } from "./styles";
-import { OpenEndedQuestion } from "../../interfaces/openEndedQuestion";
 import Button from "../Button";
+import { Question } from "../../interfaces/question";
 
 interface Props {
-  question: OpenEndedQuestion;
+  question: Question;
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
 }
@@ -20,7 +20,7 @@ const OpenEndedQuestions = ({
 
   const compareSentences = (input: string) => {
     const sentenceA = input.split(" ").join("").toLowerCase();
-    const sentenceB = question.answer.split(" ").join("").toLowerCase();
+    const sentenceB = question.answer?.split(" ").join("").toLowerCase();
     if (sentenceA === sentenceB) {
       onCorrectAnswer();
     } else {

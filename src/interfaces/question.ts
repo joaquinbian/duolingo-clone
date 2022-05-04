@@ -1,6 +1,10 @@
 export interface Question {
-  question: string;
-  options: Option[];
+  id: string;
+  type: string;
+  text?: string;
+  answer?: string;
+  question?: string;
+  options?: Option[];
 }
 
 export interface Option {
@@ -9,3 +13,5 @@ export interface Option {
   text: string;
   correct?: boolean;
 }
+
+type QuestionType = "IMAGE_MULTIPLE_CHOICE" | "OPEN_ENDED_QUESTION";

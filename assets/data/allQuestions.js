@@ -71,7 +71,6 @@ export default [
   },
   {
     id: "q4",
-    type: "IMAGE_MULTIPLE_CHOICE",
     type: "OPEN_ENDED",
     text: "La mujer",
     answer: "the woman",

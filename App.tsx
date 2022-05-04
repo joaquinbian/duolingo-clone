@@ -1,51 +1,35 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
-import { Alert, Text, View } from "react-native";
+import { Alert } from "react-native";
 import { styles } from "./App.styles";
-import OptionButton from "./src/components/OptionButton";
-import questions from "./assets/data/imageMulatipleChoiceQuestions";
-import openEndedQuestions from "./assets/data/openEndedQuestions";
+import questions from "./assets/data/allQuestions";
 import { useEffect, useRef, useState } from "react";
-import CustomButton from "./src/components/Button";
 import Question from "./src/components/Question";
+import {
+  Question as QuestionInterface,
+  Option,
+} from "./src/interfaces/question";
 import OpenEndedQuestions from "./src/components/OpenEndedQuestions";
 
 export default function App() {
   // const [isChecking, setIsChecking] = useState<boolean | undefined>(undefined);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Option | null>(null); //este estado lo puedo pasar directamnte al omponente
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [currentQuestion, setCurrentQuestion] = useState(
-    openEndedQuestions[currentIndex]
+  const [currentQuestion, setCurrentQuestion] = useState<QuestionInterface>(
+    questions[currentIndex]
   );
 
-  const selectOption = (id: string): void => setSelected(id);
+  const selectOption = (option: Option): void => setSelected(option);
 
   useEffect(() => {
-    if (currentIndex === openEndedQuestions.length) {
+    if (currentIndex === questions.length) {
       Alert.alert("congratulations", "you won");
     } else {
-      setCurrentQuestion(openEndedQuestions[currentIndex]);
+      setCurrentQuestion(questions[currentIndex]);
     }
     setSelected(null);
   }, [currentIndex]);
-
-  // const isAnswerCorrect = currentQuestion.options?.find(
-  //   (option) => option.id === selected
-  // )?.correct;
-  // const checkAnswer = () => {
-
-  //     if (isAnswerCorrect) {
-  //       Alert.alert("correct", "", [
-  //         {
-  //           text: "next",
-  //           onPress: () => setCurrentIndex((index) => index + 1),
-  //         },
-  //       ]);
-  //     } else {
-  //       Alert.alert("incorrect");
-  //   }
-  // };
 
   const OnCorrectAnswer = () => {
     Alert.alert("correct", "", [
@@ -63,18 +47,22 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
-        {/* <Question
-          question={currentQuestion}
-          selected={selected}
-          selectOption={selectOption}
-        /> */}
+        {currentQuestion.type === "IMAGE_MULTIPLE_CHOICE" ? (
+          <Question
+            question={currentQuestion}
+            selected={selected}
+            selectOption={selectOption}
+            onCorrect={OnCorrectAnswer}
+            onWrong={onIncorrectAnswer}
+          />
+        ) : (
+          <OpenEndedQuestions
+            onCorrectAnswer={OnCorrectAnswer}
+            onIncorrectAnswer={onIncorrectAnswer}
+            question={currentQuestion}
+          />
+        )}
 
-        <OpenEndedQuestions
-          onCorrectAnswer={OnCorrectAnswer}
-          onIncorrectAnswer={onIncorrectAnswer}
-          question={currentQuestion}
-        />
-        {/* <CustomButton onPress={checkAnswer}>check 2</CustomButton> */}
         <StatusBar style="auto" />
       </SafeAreaView>
     </NativeBaseProvider>
