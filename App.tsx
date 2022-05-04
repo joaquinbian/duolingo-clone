@@ -11,6 +11,9 @@ import {
   Option,
 } from "./src/interfaces/question";
 import OpenEndedQuestions from "./src/components/OpenEndedQuestions";
+import { QuestionType } from "./src/interfaces/question";
+
+const TYPE_QUESTION: QuestionType = "IMAGE_MULTIPLE_CHOICE";
 
 export default function App() {
   // const [isChecking, setIsChecking] = useState<boolean | undefined>(undefined);
@@ -47,7 +50,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
-        {currentQuestion.type === "IMAGE_MULTIPLE_CHOICE" ? (
+        {currentQuestion.type === TYPE_QUESTION ? (
           <Question
             question={currentQuestion}
             selected={selected}

@@ -14,4 +14,4 @@ export interface Option {
   correct?: boolean;
 }
 
-type QuestionType = "IMAGE_MULTIPLE_CHOICE" | "OPEN_ENDED_QUESTION";
+export type QuestionType = "IMAGE_MULTIPLE_CHOICE" | "OPEN_ENDED";
