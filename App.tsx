@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider, Progress } from "native-base";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 import { styles } from "./App.styles";
 import questions from "./assets/data/allQuestions";
 import { useEffect, useState } from "react";

@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "space-around", //cuando tenemos flexWrap funciona como justyfyContent para
     //las columns o rows dependiendo del valor de flexDirection
+    // backgroundColor: "red",
   },
   title: {
     fontSize: 20,

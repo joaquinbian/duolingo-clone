@@ -31,6 +31,7 @@ const OptionButton = ({
         source={{ uri }}
         size="2xl"
         alt={`${title} image`}
+        style={{ flex: 1 }}
         resizeMode="contain" //para que el contenido de la imagen se muestre completo
       />
       <Text style={isSelected ? { fontWeight: "bold" } : {}}>{title}</Text>
