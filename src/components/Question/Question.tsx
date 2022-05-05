@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {
   Question as QuestionInterface,
@@ -9,23 +9,20 @@ import OptionButton from "../OptionButton";
 import { styles } from "./styles";
 
 interface Props {
-  selected: Option | null;
-  selectOption: (option: Option) => void;
   question: QuestionInterface;
   onWrong: () => void;
   onCorrect: () => void;
 }
 
-const Question = ({
-  question,
-  selectOption,
-  selected,
-  onCorrect,
-  onWrong,
-}: Props) => {
+const Question = ({ question, onCorrect, onWrong }: Props) => {
+  const [selected, setSelected] = useState<Option | null>();
+
+  const selectOption = (option: Option): void => setSelected(option);
+
   const onCheck = () => {
     if (selected?.correct) {
       onCorrect();
+      setSelected(null);
     } else {
       onWrong();
     }

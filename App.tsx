@@ -1,10 +1,10 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Progress } from "native-base";
 import { Alert } from "react-native";
 import { styles } from "./App.styles";
 import questions from "./assets/data/allQuestions";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Question from "./src/components/Question";
 import {
   Question as QuestionInterface,
@@ -17,13 +17,13 @@ const TYPE_QUESTION: QuestionType = "IMAGE_MULTIPLE_CHOICE";
 
 export default function App() {
   // const [isChecking, setIsChecking] = useState<boolean | undefined>(undefined);
-  const [selected, setSelected] = useState<Option | null>(null); //este estado lo puedo pasar directamnte al omponente
+  // const [selected, setSelected] = useState<Option | null>(null); //este estado lo puedo pasar directamnte al omponente
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionInterface>(
     questions[currentIndex]
   );
 
-  const selectOption = (option: Option): void => setSelected(option);
+  // const selectOption = (option: Option): void => setSelected(option);
 
   useEffect(() => {
     if (currentIndex === questions.length) {
@@ -31,7 +31,6 @@ export default function App() {
     } else {
       setCurrentQuestion(questions[currentIndex]);
     }
-    setSelected(null);
   }, [currentIndex]);
 
   const OnCorrectAnswer = () => {
@@ -50,11 +49,10 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
+        <Progress value={currentIndex} mx="4" max={questions.length} />
         {currentQuestion.type === TYPE_QUESTION ? (
           <Question
             question={currentQuestion}
-            selected={selected}
-            selectOption={selectOption}
             onCorrect={OnCorrectAnswer}
             onWrong={onIncorrectAnswer}
           />
