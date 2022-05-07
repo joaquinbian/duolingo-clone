@@ -7,7 +7,7 @@ import { styles } from "./styles";
 interface Props {
   currentIndex: number;
   maxValue: number;
-  lives: number;
+  lives: number | null;
 }
 const Header = ({ currentIndex, maxValue, lives }: Props) => {
   return (

@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "blue",
   },
   image: {
     height: 20,

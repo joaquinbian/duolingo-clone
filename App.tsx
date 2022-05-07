@@ -2,7 +2,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider, Progress } from "native-base";
-import { Alert, Text } from "react-native";
+import { ActivityIndicator, Alert, Text } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { styles } from "./App.styles";
 import questions from "./assets/data/allQuestions";
 import Question from "./src/components/Question";
@@ -13,13 +15,22 @@ import Header from "./src/components/Header";
 
 const TYPE_QUESTION: QuestionType = "IMAGE_MULTIPLE_CHOICE";
 
+interface saveDataProps {
+  key: string;
+  value: string;
+}
+
 export default function App() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionInterface>(
     questions[currentIndex]
   );
-  const [lives, setLives] = useState(5);
+  const [lives, setLives] = useState<number | null>(5);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    getGameDataFromStorage();
+  }, []);
   useEffect(() => {
     if (currentIndex === questions.length) {
       Alert.alert("congratulations", "you won");
@@ -52,30 +63,63 @@ export default function App() {
       ]);
     } else {
       Alert.alert("incorrect");
-      setLives((lives) => lives - 1);
+      setLives((lives) => lives! - 1);
+    }
+  };
+
+  useEffect(() => {
+    saveData({ key: "@questionIndex", value: currentIndex.toString() });
+    saveData({ key: "@lives", value: lives!.toString() });
+  }, [currentIndex, lives]);
+
+  const saveData = async ({ key, value }: saveDataProps) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  const getGameDataFromStorage = async () => {
+    try {
+      const lives = await AsyncStorage.getItem("@lives");
+      const currentIndex = await AsyncStorage.getItem("@questionIndex");
+
+      setLives(Number(lives) || 5);
+      setCurrentIndex(Number(currentIndex) || 0);
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsLoading((val) => !val);
     }
   };
 
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
-        <Header
-          currentIndex={currentIndex}
-          maxValue={questions.length}
-          lives={lives}
-        />
-        {currentQuestion.type === TYPE_QUESTION ? (
-          <Question
-            question={currentQuestion}
-            onCorrect={OnCorrectAnswer}
-            onWrong={onIncorrectAnswer}
-          />
+        {isLoading ? (
+          <ActivityIndicator color="green" />
         ) : (
-          <OpenEndedQuestions
-            onCorrectAnswer={OnCorrectAnswer}
-            onIncorrectAnswer={onIncorrectAnswer}
-            question={currentQuestion}
-          />
+          <>
+            <Header
+              currentIndex={currentIndex}
+              maxValue={questions.length}
+              lives={lives}
+            />
+            {currentQuestion.type === TYPE_QUESTION ? (
+              <Question
+                question={currentQuestion}
+                onCorrect={OnCorrectAnswer}
+                onWrong={onIncorrectAnswer}
+              />
+            ) : (
+              <OpenEndedQuestions
+                onCorrectAnswer={OnCorrectAnswer}
+                onIncorrectAnswer={onIncorrectAnswer}
+                question={currentQuestion}
+              />
+            )}
+          </>
         )}
 
         <StatusBar style="auto" />
