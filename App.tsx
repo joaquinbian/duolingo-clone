@@ -12,8 +12,11 @@ import { Question as QuestionInterface } from "./src/interfaces/question";
 import OpenEndedQuestions from "./src/components/OpenEndedQuestions";
 import { QuestionType } from "./src/interfaces/question";
 import Header from "./src/components/Header";
+import FillInTheBlank from "./src/components/FillInTheBlank";
 
-const TYPE_QUESTION: QuestionType = "IMAGE_MULTIPLE_CHOICE";
+const MULTIPLE_CHOICE: QuestionType = "IMAGE_MULTIPLE_CHOICE";
+const OPEN_ENDED: QuestionType = "OPEN_ENDED";
+const FILL_IN_THE_BLANK: QuestionType = "FILL_IN_THE_BLANK";
 
 interface saveDataProps {
   key: string;
@@ -26,7 +29,7 @@ export default function App() {
     questions[currentIndex]
   );
   const [lives, setLives] = useState<number | null>(5);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const firstRender = useRef<boolean>(true);
 
   useEffect(() => {
@@ -34,7 +37,12 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (currentIndex === questions.length) {
-      Alert.alert("congratulations", "you won");
+      Alert.alert("congratulations", "you won", [
+        {
+          text: "restart",
+          onPress: () => restartGame(),
+        },
+      ]);
     } else {
       setCurrentQuestion(questions[currentIndex]);
     }
@@ -53,6 +61,8 @@ export default function App() {
     setLives(5);
     setCurrentIndex(0);
   };
+
+  console.log({ currentQuestion, currentIndex });
 
   const onIncorrectAnswer = () => {
     if (lives === 1) {
@@ -89,43 +99,57 @@ export default function App() {
       const lives = await AsyncStorage.getItem("@lives");
       const currentIndex = await AsyncStorage.getItem("@questionIndex");
 
+      console.log({ lives, currentIndex }, "in get data game from storage");
+
       setLives(Number(lives) || 5);
       setCurrentIndex(Number(currentIndex) || 0);
     } catch (error) {
       console.log({ error });
     } finally {
-      setIsLoading((val) => !val);
+      console.log("entro aca ");
+      console.log({ isLoading });
+
+      setIsLoading(false);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <NativeBaseProvider>
-        {/* {isLoading ? (
+        {isLoading ? (
           <ActivityIndicator color="green" />
-        ) : ( */}
-        <>
-          <Header
-            currentIndex={currentIndex}
-            maxValue={questions.length}
-            lives={lives}
-          />
-          {currentQuestion.type === TYPE_QUESTION ? (
-            <Question
-              question={currentQuestion}
-              onCorrect={OnCorrectAnswer}
-              onWrong={onIncorrectAnswer}
+        ) : (
+          <>
+            <Header
+              currentIndex={currentIndex}
+              maxValue={questions.length}
+              lives={lives}
             />
-          ) : (
-            <OpenEndedQuestions
-              onCorrectAnswer={OnCorrectAnswer}
-              onIncorrectAnswer={onIncorrectAnswer}
-              question={currentQuestion}
-            />
-          )}
-        </>
-        {/* )} */}
 
+            {currentQuestion.type === MULTIPLE_CHOICE && (
+              <Question
+                question={currentQuestion}
+                onCorrect={OnCorrectAnswer}
+                onWrong={onIncorrectAnswer}
+              />
+            )}
+
+            {currentQuestion.type === OPEN_ENDED && (
+              <OpenEndedQuestions
+                onCorrectAnswer={OnCorrectAnswer}
+                onIncorrectAnswer={onIncorrectAnswer}
+                question={currentQuestion}
+              />
+            )}
+            {currentQuestion.type === FILL_IN_THE_BLANK && (
+              <FillInTheBlank
+                onCorrectAnswer={OnCorrectAnswer}
+                onIncorrectAnswer={onIncorrectAnswer}
+                question={currentQuestion}
+              />
+            )}
+          </>
+        )}
         <StatusBar style="auto" />
       </NativeBaseProvider>
     </SafeAreaView>

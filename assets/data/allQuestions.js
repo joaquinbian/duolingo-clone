@@ -145,27 +145,27 @@ export default [
       },
     ],
   },
+  {
+    id: "q7",
+    type: "FILL_IN_THE_BLANK",
+    parts: [
+      {
+        text: "el",
+        isBlank: false,
+      },
+      {
+        text: "nino",
+        isBlank: true,
+      },
+      {
+        text: "la",
+        isBlank: false,
+      },
+      {
+        text: "nina",
+        isBlank: false,
+      },
+    ],
+    options: ["la", "el", "nina", "nino", "ella"],
+  },
 ];
-// {
-//   id: "q7",
-//   type: "FILL_IN_THE_BLANK",
-//   parts: [
-//     {
-//       text: "la",
-//       isBlank: true,
-//     },
-//     {
-//       text: "nino",
-//       isBlank: true,
-//     },
-//     {
-//       text: "el",
-//       isBlank: true,
-//     },
-//     {
-//       text: "nina",
-//       isBlank: true,
-//     },
-//   ],
-//   options: ["la", "el", "nina", "nino", "ella"],
-// },

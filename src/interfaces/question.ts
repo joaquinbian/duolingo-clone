@@ -4,7 +4,8 @@ export interface Question {
   text?: string;
   answer?: string;
   question?: string;
-  options?: Option[];
+  options?: Option[] | string[];
+  parts?: FillInTheBlankParts[];
 }
 
 export interface Option {
@@ -14,4 +15,12 @@ export interface Option {
   correct?: boolean;
 }
 
-export type QuestionType = "IMAGE_MULTIPLE_CHOICE" | "OPEN_ENDED";
+interface FillInTheBlankParts {
+  text: string;
+  isBlank: boolean;
+}
+
+export type QuestionType =
+  | "IMAGE_MULTIPLE_CHOICE"
+  | "OPEN_ENDED"
+  | "FILL_IN_THE_BLANK";
