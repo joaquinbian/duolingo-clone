@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider, Progress } from "native-base";
 import { ActivityIndicator, Alert, Text } from "react-native";
@@ -27,6 +27,7 @@ export default function App() {
   );
   const [lives, setLives] = useState<number | null>(5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const firstRender = useRef<boolean>(true);
 
   useEffect(() => {
     getGameDataFromStorage();
@@ -68,8 +69,11 @@ export default function App() {
   };
 
   useEffect(() => {
-    saveData({ key: "@questionIndex", value: currentIndex.toString() });
-    saveData({ key: "@lives", value: lives!.toString() });
+    if (!firstRender.current) {
+      saveData({ key: "@questionIndex", value: currentIndex.toString() });
+      saveData({ key: "@lives", value: lives!.toString() });
+    }
+    firstRender.current = false;
   }, [currentIndex, lives]);
 
   const saveData = async ({ key, value }: saveDataProps) => {
@@ -95,35 +99,35 @@ export default function App() {
   };
 
   return (
-    <NativeBaseProvider>
-      <SafeAreaView style={styles.container}>
-        {isLoading ? (
+    <SafeAreaView style={styles.container}>
+      <NativeBaseProvider>
+        {/* {isLoading ? (
           <ActivityIndicator color="green" />
-        ) : (
-          <>
-            <Header
-              currentIndex={currentIndex}
-              maxValue={questions.length}
-              lives={lives}
+        ) : ( */}
+        <>
+          <Header
+            currentIndex={currentIndex}
+            maxValue={questions.length}
+            lives={lives}
+          />
+          {currentQuestion.type === TYPE_QUESTION ? (
+            <Question
+              question={currentQuestion}
+              onCorrect={OnCorrectAnswer}
+              onWrong={onIncorrectAnswer}
             />
-            {currentQuestion.type === TYPE_QUESTION ? (
-              <Question
-                question={currentQuestion}
-                onCorrect={OnCorrectAnswer}
-                onWrong={onIncorrectAnswer}
-              />
-            ) : (
-              <OpenEndedQuestions
-                onCorrectAnswer={OnCorrectAnswer}
-                onIncorrectAnswer={onIncorrectAnswer}
-                question={currentQuestion}
-              />
-            )}
-          </>
-        )}
+          ) : (
+            <OpenEndedQuestions
+              onCorrectAnswer={OnCorrectAnswer}
+              onIncorrectAnswer={onIncorrectAnswer}
+              question={currentQuestion}
+            />
+          )}
+        </>
+        {/* )} */}
 
         <StatusBar style="auto" />
-      </SafeAreaView>
-    </NativeBaseProvider>
+      </NativeBaseProvider>
+    </SafeAreaView>
   );
 }
