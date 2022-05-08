@@ -14,6 +14,7 @@ import { QuestionType } from "./src/interfaces/question";
 import Header from "./src/components/Header";
 import FillInTheBlank from "./src/components/FillInTheBlank";
 import MultipleBlanks from "./src/components/MultipleBlanks";
+import { useQuestion } from "./src/hooks/useQuestion";
 
 const MULTIPLE_CHOICE: QuestionType = "IMAGE_MULTIPLE_CHOICE";
 const OPEN_ENDED: QuestionType = "OPEN_ENDED";
@@ -26,59 +27,15 @@ interface saveDataProps {
 }
 
 export default function App() {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [currentQuestion, setCurrentQuestion] = useState<QuestionInterface>(
-    questions[currentIndex]
-  );
-  const [lives, setLives] = useState<number | null>(5);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    currentQuestion,
+    onIncorrectAnswer,
+    OnCorrectAnswer,
+    lives,
+    currentIndex,
+    isLoading,
+  } = useQuestion();
   const firstRender = useRef<boolean>(true);
-
-  useEffect(() => {
-    getGameDataFromStorage();
-  }, []);
-  useEffect(() => {
-    if (currentIndex === questions.length) {
-      Alert.alert("congratulations", "you won", [
-        {
-          text: "restart",
-          onPress: () => restartGame(),
-        },
-      ]);
-    } else {
-      setCurrentQuestion(questions[currentIndex]);
-    }
-  }, [currentIndex]);
-
-  const OnCorrectAnswer = () => {
-    Alert.alert("correct", "", [
-      {
-        text: "next",
-        onPress: () => setCurrentIndex((index) => index + 1),
-      },
-    ]);
-  };
-
-  const restartGame = () => {
-    setLives(5);
-    setCurrentIndex(0);
-  };
-
-  console.log({ currentQuestion, currentIndex });
-
-  const onIncorrectAnswer = () => {
-    if (lives === 1) {
-      Alert.alert("Game Over", "Try again", [
-        {
-          text: "try again",
-          onPress: () => restartGame(),
-        },
-      ]);
-    } else {
-      Alert.alert("incorrect");
-      setLives((lives) => lives! - 1);
-    }
-  };
 
   useEffect(() => {
     if (!firstRender.current) {
@@ -93,25 +50,6 @@ export default function App() {
       await AsyncStorage.setItem(key, value);
     } catch (error) {
       console.log({ error });
-    }
-  };
-
-  const getGameDataFromStorage = async () => {
-    try {
-      const lives = await AsyncStorage.getItem("@lives");
-      const currentIndex = await AsyncStorage.getItem("@questionIndex");
-
-      console.log({ lives, currentIndex }, "in get data game from storage");
-
-      setLives(Number(lives) || 5);
-      setCurrentIndex(Number(currentIndex) || 0);
-    } catch (error) {
-      console.log({ error });
-    } finally {
-      console.log("entro aca ");
-      console.log({ isLoading });
-
-      setIsLoading(false);
     }
   };
 

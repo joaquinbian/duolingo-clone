@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Question } from "../../interfaces/question";
+import Button from "../Button";
 import OptionWord from "../OptionWord";
 import { styles } from "./styles";
 
@@ -10,7 +11,10 @@ interface Props {
   onIncorrectAnswer: () => void;
 }
 
-let indexQuestion = 0;
+const areEqual = (arr1: string[] = [], arr2: string[] = []) => {
+  return JSON.stringify(arr1) === JSON.stringify(arr2);
+};
+
 const MultipleBlanks = ({
   question,
   onCorrectAnswer,
@@ -25,14 +29,14 @@ const MultipleBlanks = ({
 
   const addWord = (word: string) => {
     // setSelectedWords(words => words?.splice(index, 0, word));
-    const indexToInsert: number = selectedWords?.indexOf(""); //buscamos el indice del espacio
+    const indexToInsert: number | undefined = selectedWords?.indexOf(""); //buscamos el indice del espacio
 
     if (indexToInsert !== -1) {
       setSelectedWords((words) => {
         return [
-          ...words?.splice(0, indexToInsert)!,
+          ...words?.splice(0, indexToInsert),
           word,
-          ...words?.splice(indexToInsert)!,
+          ...words?.splice(indexToInsert),
         ];
       });
     }
@@ -43,11 +47,20 @@ const MultipleBlanks = ({
     if (indexWord !== -1) {
       setSelectedWords((words) => {
         return [
-          ...words?.splice(0, indexWord)!,
+          ...words?.splice(0, indexWord),
           "",
-          ...words?.splice(indexWord)!,
+          ...words?.splice(indexWord),
         ];
       });
+    }
+  };
+
+  const checkAnswer = () => {
+    const sentence = question.parts?.map((part) => part.text);
+    if (areEqual(selectedWords, sentence)) {
+      onCorrectAnswer();
+    } else {
+      onIncorrectAnswer();
     }
   };
 
@@ -78,7 +91,8 @@ const MultipleBlanks = ({
           />
         ))}
       </View>
-      <Text>{question.type}</Text>
+      {/* <Text>{question.type}</Text> */}
+      <Button onPress={checkAnswer}>submit</Button>
     </View>
   );
 };
