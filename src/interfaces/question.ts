@@ -23,4 +23,5 @@ interface FillInTheBlankParts {
 export type QuestionType =
   | "IMAGE_MULTIPLE_CHOICE"
   | "OPEN_ENDED"
-  | "FILL_IN_THE_BLANK";
+  | "FILL_IN_THE_BLANK"
+  | "FILL_IN_THE_BLANK_MULTIPLE";

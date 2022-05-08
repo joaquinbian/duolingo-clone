@@ -13,10 +13,12 @@ import OpenEndedQuestions from "./src/components/OpenEndedQuestions";
 import { QuestionType } from "./src/interfaces/question";
 import Header from "./src/components/Header";
 import FillInTheBlank from "./src/components/FillInTheBlank";
+import MultipleBlanks from "./src/components/MultipleBlanks";
 
 const MULTIPLE_CHOICE: QuestionType = "IMAGE_MULTIPLE_CHOICE";
 const OPEN_ENDED: QuestionType = "OPEN_ENDED";
 const FILL_IN_THE_BLANK: QuestionType = "FILL_IN_THE_BLANK";
+const FILL_IN_THE_BLANK_MULTIPLE: QuestionType = "FILL_IN_THE_BLANK_MULTIPLE";
 
 interface saveDataProps {
   key: string;
@@ -146,6 +148,13 @@ export default function App() {
                 onCorrectAnswer={OnCorrectAnswer}
                 onIncorrectAnswer={onIncorrectAnswer}
                 question={currentQuestion}
+              />
+            )}
+            {currentQuestion.type === FILL_IN_THE_BLANK_MULTIPLE && (
+              <MultipleBlanks
+                question={currentQuestion}
+                onIncorrectAnswer={onIncorrectAnswer}
+                onCorrectAnswer={OnCorrectAnswer}
               />
             )}
           </>

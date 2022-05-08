@@ -168,4 +168,27 @@ export default [
     ],
     options: ["la", "el", "nina", "nino", "ella"],
   },
+  {
+    id: "q8",
+    type: "FILL_IN_THE_BLANK_MULTIPLE",
+    parts: [
+      {
+        text: "la",
+        isBlank: false,
+      },
+      {
+        text: "nina",
+        isBlank: true,
+      },
+      {
+        text: "la",
+        isBlank: false,
+      },
+      {
+        text: "mujer",
+        isBlank: true,
+      },
+    ],
+    options: ["la", "el", "nina", "hombre", "mujer"],
+  },
 ];
