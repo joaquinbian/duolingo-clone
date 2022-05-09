@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Question } from "../../interfaces/question";
 import Button from "../Button";
 import OptionWord from "../OptionWord";
@@ -28,7 +28,6 @@ const MultipleBlanks = ({
   }, []);
 
   const addWord = (word: string) => {
-    // setSelectedWords(words => words?.splice(index, 0, word));
     const indexToInsert: number | undefined = selectedWords?.indexOf(""); //buscamos el indice del espacio
 
     if (indexToInsert !== -1) {
@@ -91,7 +90,6 @@ const MultipleBlanks = ({
           />
         ))}
       </View>
-      {/* <Text>{question.type}</Text> */}
       <Button onPress={checkAnswer}>submit</Button>
     </View>
   );

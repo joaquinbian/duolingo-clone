@@ -66,11 +66,8 @@ export const useQuestion = () => {
       resetLives(Number(lives) || 5);
       setCurrentIndex(Number(currentIndex) || 0);
     } catch (error) {
-      console.log({ error });
+      console.log(error);
     } finally {
-      console.log("entro aca ");
-      console.log({ isLoading });
-
       setIsLoading(false);
     }
   };

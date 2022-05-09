@@ -1,14 +1,12 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider, Progress } from "native-base";
-import { ActivityIndicator, Alert, Text } from "react-native";
+import { NativeBaseProvider } from "native-base";
+import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { styles } from "./App.styles";
 import questions from "./assets/data/allQuestions";
 import Question from "./src/components/Question";
-import { Question as QuestionInterface } from "./src/interfaces/question";
 import OpenEndedQuestions from "./src/components/OpenEndedQuestions";
 import { QuestionType } from "./src/interfaces/question";
 import Header from "./src/components/Header";
