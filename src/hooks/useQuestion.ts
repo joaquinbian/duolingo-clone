@@ -53,17 +53,17 @@ export const useQuestion = () => {
   }, [currentIndex]);
 
   useEffect(() => {
-    getGameDataFromStorage();
+    getQuestionIndexFromStorage();
   }, []);
 
-  const getGameDataFromStorage = async () => {
+  const getQuestionIndexFromStorage = async () => {
     try {
-      const lives = await AsyncStorage.getItem("@lives");
+      // const lives = await AsyncStorage.getItem("@lives");
       const currentIndex = await AsyncStorage.getItem("@questionIndex");
 
       console.log({ lives, currentIndex }, "in get data game from storage");
 
-      resetLives(Number(lives) || 5);
+      // resetLives(Number(lives) || 5); //pasarlo  auna funcion aparte y que lo haga en el hook de las vidas asi queda seaprado
       setCurrentIndex(Number(currentIndex) || 0);
     } catch (error) {
       console.log(error);
