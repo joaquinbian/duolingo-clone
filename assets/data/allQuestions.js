@@ -189,6 +189,6 @@ export default [
         isBlank: true,
       },
     ],
-    options: ["la", "el", "nina", "hombre", "mujer"],
+    options: ["ella", "el", "nina", "hombre", "mujer"],
   },
 ];
