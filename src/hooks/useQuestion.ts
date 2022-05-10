@@ -11,49 +11,20 @@ export const useQuestion = () => {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const { lives, resetLives, decrementLives } = useLives(5);
-
   const { setValue, getDataFromStorage } = useAsyncStorage("@currentIndex");
 
   const firstRender = useRef<boolean>(true);
 
-  const restartGame = () => {
+  const resetQuestions = () => {
     setCurrentIndex(0);
-    resetLives();
   };
 
-  const OnCorrectAnswer = () => {
-    Alert.alert("correct", "", [
-      {
-        text: "next",
-        onPress: () => setCurrentIndex((index) => index + 1),
-      },
-    ]);
-  };
-
-  const onIncorrectAnswer = () => {
-    if (lives === 1) {
-      Alert.alert("Game Over", "Try again", [
-        {
-          text: "try again",
-          onPress: () => restartGame(),
-        },
-      ]);
-    } else {
-      Alert.alert("incorrect");
-      decrementLives();
-    }
+  const nextQuestion = () => {
+    setCurrentIndex((index) => index + 1);
   };
 
   useEffect(() => {
-    if (currentIndex === questions.length) {
-      Alert.alert("congratulations", "you won", [
-        {
-          text: "restart",
-          onPress: () => restartGame(),
-        },
-      ]);
-    } else {
+    if (currentIndex < questions.length) {
       setCurrentQuestion(questions[currentIndex]);
     }
   }, [currentIndex]);
@@ -75,7 +46,7 @@ export const useQuestion = () => {
     try {
       const currentIndex = await getDataFromStorage();
 
-      console.log({ lives, currentIndex }, "in get data game from storage");
+      // console.log({ lives, currentIndex }, "in get data game from storage");
 
       setCurrentIndex(Number(currentIndex) || 0);
     } catch (error) {
@@ -87,9 +58,8 @@ export const useQuestion = () => {
 
   return {
     currentQuestion,
-    lives,
-    OnCorrectAnswer,
-    onIncorrectAnswer,
+    nextQuestion,
+    resetQuestions,
     currentIndex,
     isLoading,
   };
