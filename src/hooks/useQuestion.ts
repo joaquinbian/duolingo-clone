@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert } from "react-native";
 import { Question } from "../interfaces/question";
 import questions from "../../assets/data/allQuestions";
 import { useLives } from "./useLives";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAsyncStorage } from "./useAsyncStorage";
 export const useQuestion = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState<Question>(
@@ -13,10 +13,15 @@ export const useQuestion = () => {
 
   const { lives, resetLives, decrementLives } = useLives(5);
 
+  const { setValue, getDataFromStorage } = useAsyncStorage("@currentIndex");
+
+  const firstRender = useRef<boolean>(true);
+
   const restartGame = () => {
     setCurrentIndex(0);
     resetLives();
   };
+
   const OnCorrectAnswer = () => {
     Alert.alert("correct", "", [
       {
@@ -25,6 +30,7 @@ export const useQuestion = () => {
       },
     ]);
   };
+
   const onIncorrectAnswer = () => {
     if (lives === 1) {
       Alert.alert("Game Over", "Try again", [
@@ -53,17 +59,24 @@ export const useQuestion = () => {
   }, [currentIndex]);
 
   useEffect(() => {
+    if (!firstRender.current) {
+      setValue(currentIndex);
+    }
+    return () => {
+      firstRender.current = false;
+    };
+  }, [currentIndex]);
+
+  useEffect(() => {
     getQuestionIndexFromStorage();
   }, []);
 
   const getQuestionIndexFromStorage = async () => {
     try {
-      // const lives = await AsyncStorage.getItem("@lives");
-      const currentIndex = await AsyncStorage.getItem("@questionIndex");
+      const currentIndex = await getDataFromStorage();
 
       console.log({ lives, currentIndex }, "in get data game from storage");
 
-      // resetLives(Number(lives) || 5); //pasarlo  auna funcion aparte y que lo haga en el hook de las vidas asi queda seaprado
       setCurrentIndex(Number(currentIndex) || 0);
     } catch (error) {
       console.log(error);

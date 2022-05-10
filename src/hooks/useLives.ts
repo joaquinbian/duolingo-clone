@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAsyncStorage } from "./useAsyncStorage";
 
 export const useLives = (livesQuantity: number = 5) => {
   const [lives, setLives] = useState(livesQuantity);
+  const { getDataFromStorage, setValue } = useAsyncStorage("@lives");
+  const firstRender = useRef<boolean>(true);
 
   const decrementLives = () => {
     setLives((lives) => lives - 1);
@@ -15,7 +18,7 @@ export const useLives = (livesQuantity: number = 5) => {
 
   const getCurrentLives = async () => {
     try {
-      const lives = await AsyncStorage.getItem("@lives");
+      const lives = await getDataFromStorage();
       resetLives(Number(lives || livesQuantity));
     } catch (error) {
       console.log({ error });
@@ -25,6 +28,16 @@ export const useLives = (livesQuantity: number = 5) => {
   useEffect(() => {
     getCurrentLives();
   }, []);
+
+  useEffect(() => {
+    if (!firstRender.current) {
+      setValue(lives);
+    }
+    return () => {
+      firstRender.current = false;
+    };
+  }, [lives]);
+
   return {
     lives,
     decrementLives,

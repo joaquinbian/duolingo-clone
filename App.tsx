@@ -19,11 +19,6 @@ const OPEN_ENDED: QuestionType = "OPEN_ENDED";
 const FILL_IN_THE_BLANK: QuestionType = "FILL_IN_THE_BLANK";
 const FILL_IN_THE_BLANK_MULTIPLE: QuestionType = "FILL_IN_THE_BLANK_MULTIPLE";
 
-interface saveDataProps {
-  key: string;
-  value: string;
-}
-
 export default function App() {
   const {
     currentQuestion,
@@ -33,23 +28,6 @@ export default function App() {
     currentIndex,
     isLoading,
   } = useQuestion();
-  const firstRender = useRef<boolean>(true);
-
-  useEffect(() => {
-    if (!firstRender.current) {
-      saveData({ key: "@questionIndex", value: currentIndex.toString() });
-      saveData({ key: "@lives", value: lives!.toString() });
-    }
-    firstRender.current = false;
-  }, [currentIndex, lives]);
-
-  const saveData = async ({ key, value }: saveDataProps) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
 
   return (
     <SafeAreaView style={styles.container}>
